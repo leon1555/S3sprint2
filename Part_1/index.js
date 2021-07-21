@@ -89,11 +89,19 @@ app.post("/login", async function (req, res) {
   } else {
     const stored_password = results.rows[0].password;
     const stored_role = results.rows[0].role;
-    bcrypt.compare(password, stored_password, (err, result) => {
+    bcrypt.compare(password, stored_password, async (err, result) => {
       if (result) {
         if (role === stored_role) {
           req.session.loggedIn = true;
-          res.send("You are now logged in.");
+          let auth_routes = await pool.query('SELECT route_name FROM "Roles_and_their_Routes" WHERE role_name=$1', [role])
+          let numberOfRoutes = auth_routes.rowCount;
+          let index = 0;
+          let routeArray = [];
+          while(index < numberOfRoutes) {
+            routeArray.push(auth_routes.rows[index].route_name)
+            index ++;
+          }
+          res.send("You are now logged in with access to" + routeArray);
         } else {
           res.send("Your selected role does not match the role that we have on file for you.")
         }
