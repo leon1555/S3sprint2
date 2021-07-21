@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const pool = new pg.Pool({
   user: "me",
   host: "localhost",
-  database: "sprint1",
+  database: "sprint2",
   password: "password",
   port: 5432,
 });

@@ -10,6 +10,12 @@
     <form method="POST" action='/login'>
         <input type='text' name='email' placeholder='email'/>
         <input type='password' name='password' placeholder='password'/>
+        <label for="roles">Select role:</label>
+        <select name="roles" id="roles">
+            <option value="customer">Customer</option>
+            <option value="super-user">Super User</option>
+            <option value="administrator">Administrator</option>
+        </select>
         <button type='submit'>Log in!</button>
     </form>
     
