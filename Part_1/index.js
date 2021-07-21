@@ -38,6 +38,7 @@ app.post("/signup", async function (req, res) {
   let email = req.body.email;
   let password = req.body.password;
   let password_confirm = req.body.confirm_password;
+  let role = req.body.role;
   if (!email || !password || !password_confirm) {
     res.send("Error! Please fill in all fields.");
   } else {
@@ -55,8 +56,8 @@ app.post("/signup", async function (req, res) {
         res.send("Error! There is already an account with that name!");
       } else {
         let insert_result = await pool.query(
-          "INSERT INTO users(email, password) VALUES($1, $2)",
-          [email, encrypted_password]
+          "INSERT INTO users(email, password, role) VALUES($1, $2, $3)",
+          [email, encrypted_password, role]
         );
         res.send("The account has been created");
       }
@@ -71,6 +72,7 @@ app.get("/login", function (req, res) {
 app.post("/login", async function (req, res) {
   const email = req.body.email;
   const password = req.body.password;
+  const role = req.body.role;
 
   let results = await pool.query("SELECT * FROM users WHERE email=$1", [email]);
   if (results.rows < 1) {
@@ -86,10 +88,15 @@ app.post("/login", async function (req, res) {
     );
   } else {
     const stored_password = results.rows[0].password;
+    const stored_role = results.rows[0].role;
     bcrypt.compare(password, stored_password, (err, result) => {
       if (result) {
-        req.session.loggedIn = true;
-        res.send("You are now logged in.");
+        if (role === stored_role) {
+          req.session.loggedIn = true;
+          res.send("You are now logged in.");
+        } else {
+          res.send("Your selected role does not match the role that we have on file for you.")
+        }
       } else {
         res.send("Invalid password! Please try again!");
       }
