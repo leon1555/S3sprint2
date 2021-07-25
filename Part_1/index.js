@@ -104,7 +104,7 @@ app.post("/login", async function (req, res) {
             routeArray.push(auth_routes.rows[index].route_name)
             index ++;
           }
-          res.send("You are now logged in with access to" + routeArray);
+          res.send("You are now logged in with access to " + routeArray);
         } else {
           res.send("Your selected role does not match the role that we have on file for you.")
         }
