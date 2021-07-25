@@ -4,6 +4,7 @@ const path = require("path");
 const pg = require("pg");
 const bcrypt = require("bcrypt");
 
+// connection to database
 const pool = new pg.Pool({
   user: "me",
   host: "localhost",
@@ -12,6 +13,7 @@ const pool = new pg.Pool({
   port: 5432,
 });
 
+// set up for an instance of express
 const app = express();
 app.use(session({ secret: "UniqueSession" }));
 app.use(express.json());
@@ -21,6 +23,7 @@ app.use(
   })
 );
 
+// routes with GET and POST requests
 app.get("/", function (req, res) {
   if (req.session.count === undefined) {
     req.session.count = 0;
