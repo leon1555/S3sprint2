@@ -22,6 +22,7 @@ app.use(
     extended: true,
   })
 );
+app.use(express.static(path.join(__dirname, 'css')));
 
 // routes with GET and POST requests
 app.get("/", function (req, res) {
@@ -132,6 +133,6 @@ app.post("/logout", function (req, res) {
   res.send("You have successfully logged out.");
 });
 
-app.listen(3000, function () {
-  console.log("Listening at http://localhost:3000");
+app.listen(3001, function () {
+  console.log("Listening at http://localhost:3001");
 });
