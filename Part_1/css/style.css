@@ -99,3 +99,11 @@ body {
   color: #ffffff;
   margin-top: 150px;
 }
+
+#message-area {
+  text-align: center;
+  color: #4d4d4d;
+  font-size: 24px;
+  margin-left: 180px;
+  padding: 20px 0 20px 0;
+}

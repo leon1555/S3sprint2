@@ -6,6 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <title>Document</title>
+    <script type="text/javascript">
+        function main(){
+            let btn = document.querySelector("#submit_button");
+            let message_area = document.querySelector("#message_area")
+            btn.addEventListener('click', async function(){
+                let data = {};
+                let email_element = document.querySelector("input[name='email']")
+                let password_element = document.querySelector("input[name='password']")
+                let role_selector_element = document.querySelector("select[name='role']");
+                data["email"] = email_element.value;
+                data["password"] = password_element.value;
+                data["role"] = role_selector_element.options[role_selector_element.selectedIndex].value;
+                let response = await fetch("/login", {
+                    method: 'POST',
+                    headers:{
+                        'Content-Type' : 'application/json'
+                    },
+                    body:JSON.stringify(data)
+                })
+
+                let response_text = await response.text()
+                message_area.innerText = response_text;
+            })
+        }
+
+        window.addEventListener('load', main);
+    </script>
 </head>
 <body>
     <div class="login-form corners">
@@ -18,8 +45,9 @@
             <option value="super-user">Super User</option>
             <option value="administrator">Administrator</option>
         </select>
-        <button type='submit'>Log in!</button>
+        <button id="submit_button" type='button'>Log in!</button>
     </form>
+    <output id="message_area"></output>
     </div>
 </body>
 </html>

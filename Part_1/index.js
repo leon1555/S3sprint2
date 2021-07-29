@@ -15,6 +15,8 @@ const pool = new pg.Pool({
 
 // set up for an instance of express
 const app = express();
+
+// middlewares
 app.use(session({ secret: "UniqueSession" }));
 app.use(express.json());
 app.use(
@@ -22,7 +24,8 @@ app.use(
     extended: true,
   })
 );
-app.use(express.static(path.join(__dirname, 'css')));
+// fetches css
+app.use('/css', express.static(path.join(__dirname, 'css')));
 
 // routes with GET and POST requests
 app.get("/", function (req, res) {
@@ -34,6 +37,7 @@ app.get("/", function (req, res) {
   res.send(`You've visited ${count} times!`);
 });
 
+// signup
 app.get("/signup", function (req, res) {
   res.sendFile(path.join(__dirname, "signup.html"));
 });
@@ -69,6 +73,7 @@ app.post("/signup", async function (req, res) {
   }
 });
 
+// login
 app.get("/login", function (req, res) {
   res.sendFile(path.join(__dirname, "login.html"));
 });
